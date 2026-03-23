@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Gift from My Heart 🌸</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Dancing+Script:wght@700&display=swap');
+
+        :root {
+            --env-color: #ff0050; 
+            --env-body-color: #cc0040;
+            --paper-color: #fffafa;
+            --text-color: #2c3e50;
+            --accent-color: #00f2ea; 
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; background: linear-gradient(to bottom, #020111 10%, #191621 100%);
+            font-family: 'Poppins', sans-serif; overflow: hidden; color: #fff; position: relative;
+        }
+
+        /* --- BACKGROUND GUNUNG & BINTANG --- */
+        .mountains {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 250px;
+            background: linear-gradient(to top, #000, transparent);
+            clip-path: polygon(0% 100%, 0% 80%, 15% 60%, 30% 85%, 50% 40%, 70% 80%, 85% 55%, 100% 80%, 100% 100%);
+            z-index: -1; opacity: 0.8;
+        }
+
+        .night { position: absolute; width: 100%; height: 100%; transform: rotateZ(45deg); z-index: -2; }
+        .shooting_star {
+            position: absolute; left: 50%; top: 50%; height: 2px;
+            background: linear-gradient(-45deg, #5f91ff, rgba(0, 0, 255, 0));
+            border-radius: 999px; animation: tail 3000ms infinite, shooting 3000ms infinite;
+        }
+        @keyframes tail { 0% { width: 0; } 30% { width: 100px; } 100% { width: 0; } }
+        @keyframes shooting { 0% { transform: translateX(0); } 100% { transform: translateX(300px); } }
+
+        /* --- FLOWER FALLING EFFECT --- */
+        .falling-flower {
+            position: fixed; top: -10%; font-size: 1.5rem; z-index: 9999;
+            animation: fall linear forwards;
+        }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); opacity: 0; } }
+
+        /* --- ENVELOPE --- */
+        .envelope-wrapper { position: relative; cursor: pointer; text-align: center; z-index: 10; transition: 0.5s; }
+        .envelope {
+            position: relative; width: 280px; height: 180px; background-color: var(--env-body-color);
+            border-radius: 0 0 10px 10px; box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+        .flap {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--env-color); border-radius: 10px;
+            clip-path: polygon(0 0, 100% 0, 50% 100%); z-index: 3;
+            transition: transform 0.6s ease; transform-origin: top;
+        }
+        .envelope-wrapper.open .flap { transform: rotateX(180deg); z-index: 1; }
+        .letter-small {
+            position: absolute; bottom: 10px; left: 10%; width: 80%; height: 70%;
+            background-color: var(--paper-color); z-index: 2; transition: transform 1s ease 0.6s;
+            display: flex; justify-content: center; align-items: center; border-radius: 5px;
+        }
+        .envelope-wrapper.open .letter-small { transform: translateY(-160px) scale(1.1); z-index: 4; }
+
+        /* --- BOOK & PAGES --- */
+        .book-wrapper { perspective: 2000px; display: none; }
+        .book-wrapper.active { display: block; animation: fadeIn 1s; }
+        .book { width: 320px; height: 500px; position: relative; transform-style: preserve-3d; }
+        .page {
+            width: 100%; height: 100%; position: absolute; top: 0; left: 0;
+            transform-origin: left; transition: transform 1.2s; backface-visibility: hidden;
+            border-radius: 0 10px 10px 0;
+        }
+        .page-inside {
+            background-color: var(--paper-color); color: var(--text-color);
+            padding: 20px; display: flex; flex-direction: column; justify-content: center;
+            box-shadow: inset 3px 0 15px rgba(0,0,0,0.1); border: 1px solid #ddd;
+        }
+        .cover-front {
+            background: linear-gradient(135deg, #1a1a1a, #222); z-index: 10;
+            border: 3px solid var(--accent-color); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; cursor: pointer;
+        }
+        .flipped { transform: rotateY(-175deg); }
+
+        h2 { font-size: 1rem; color: var(--env-color); margin-bottom: 8px; border-bottom: 2px dashed var(--accent-color); }
+        p { font-size: 0.78rem; line-height: 1.5; margin-bottom: 10px; text-align: justify; }
+        
+        .dalil-table { 
+            width: 100%; border: 1px solid #ffccd5; border-radius: 8px; 
+            background: #fffafa; border-collapse: collapse; overflow: hidden; margin-bottom: 10px;
+        }
+        .dalil-table td { padding: 8px; font-size: 0.7rem; font-style: italic; color: #444; border-bottom: 1px solid #eee; }
+        .dalil-table span { font-weight: bold; color: var(--env-body-color); display: block; margin-top: 3px; font-size: 0.65rem; }
+
+        .btn-magic {
+            width: 100%; padding: 10px; background: var(--env-color); color: #fff;
+            border: none; border-radius: 5px; cursor: pointer; font-weight: bold;
+            margin-top: 10px; transition: 0.3s;
+        }
+
+        .admin-table { width: 100%; margin-top: 10px; }
+        .input-msg { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 0.8rem; resize: none; }
+
+        .signature {
+            margin-top: 10px; text-align: center; font-size: 1.5rem; 
+            color: var(--env-color); font-weight: bold; font-family: 'Dancing Script', cursive;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .fadeOut { opacity: 0; pointer-events: none; transition: 0.6s; }
+    </style>
+</head>
+<body>
+
+    <div class="night">
+        <div class="shooting_star"></div><div class="shooting_star"></div>
+        <div class="shooting_star"></div><div class="shooting_star"></div>
+    </div>
+    <div class="mountains"></div>
+
+    <div class="container">
+        <div class="envelope-wrapper" id="envWrap">
+            <div class="envelope">
+                <div class="flap"></div>
+                <div class="letter-small" id="btnOpenBook">
+                    <span style="font-size: 2rem;">🌸</span>
+                </div>
+            </div>
+            <p style="margin-top:20px; font-size:0.8rem; color:var(--accent-color);">Buka Pesan Spesial Ini ✨</p>
+        </div>
+
+        <div class="book-wrapper" id="bookWrap">
+            <div class="book">
+                <div class="page cover-front" onclick="this.classList.add('flipped')" style="z-index:11;">
+                    <h1 style="font-family:'Dancing Script'; font-size: 3rem; color: var(--accent-color);">Happy Birthday</h1>
+                    <p style="color: #fff; font-size: 0.65rem; letter-spacing: 2px;">KLIK UNTUK MEMBACA</p>
+                </div>
+
+                <div class="page page-inside" onclick="this.classList.add('flipped')" style="z-index:10;">
+                    <h2>Kekuatan Jiwa</h2>
+                    <p>Aku tahu mungkin saat ini keadaan rumahmu sedang tidak terasa hangat, tapi ingatlah, kamu adalah cahaya bagi dirimu sendiri. Dunia tidak akan gelap selama kamu tetap menyala.</p>
+                    <table class="dalil-table">
+                        <tr><td>"Janganlah kamu berduka cita, sesungguhnya Allah bersama kita."<span>(QS. At-Taubah: 40)</span></td></tr>
+                    </table>
+                </div>
+
+                <div class="page page-inside" onclick="this.classList.add('flipped')" style="z-index:9;">
+                    <h2>Janji Kemudahan</h2>
+                    <p>Setiap lelahmu, setiap tetes air matamu yang jatuh dalam diam, Allah Maha Melihat. Percayalah, pelangi akan muncul setelah badai ini reda.</p>
+                    <table class="dalil-table">
+                        <tr><td>"Karena sesungguhnya sesudah kesulitan itu ada kemudahan."<span>(QS. Al-Insyirah: 6)</span></td></tr>
+                        <tr><td>"Allah tidak membebani seseorang melainkan sesuai kesanggupannya."<span>(QS. Al-Baqarah: 286)</span></td></tr>
+                    </table>
+                </div>
+
+                <div class="page page-inside" onclick="this.classList.add('flipped')" style="z-index:8;">
+                    <h2>Masa Depanmu</h2>
+                    <p>Jangan biarkan keadaan sekarang membuatmu berhenti bermimpi. Kamu berharga dan kamu punya hak untuk terbang tinggi menggapai bahagia!</p>
+                    <table class="dalil-table">
+                        <tr><td>"Barangsiapa bertakwa kepada Allah niscaya Dia akan membukakan jalan keluar baginya."<span>(QS. At-Talaq: 2)</span></td></tr>
+                    </table>
+                </div>
+
+                <div class="page page-inside" onclick="this.classList.add('flipped')" style="z-index:7;">
+                    <h2>Pesan Dari Aku</h2>
+                    <p>Selamat ulang tahun ya! Dari sini, aku selalu mendoakan agar kamu tetap kuat, sehat, dan selalu dalam lindungan-Nya. Aku bangga sama kamu yang sudah bertahan sejauh ini.</p>
+                    <p style="text-align:center; font-weight:bold; color:var(--env-color);">Tetaplah tumbuh, meskipun dunia memaksamu layu. 🌱</p>
+                    <div class="signature">@𝖉𝖍𝖙_</div>
+                </div>
+
+                <div class="page page-inside" style="z-index:6;">
+                    <h2 style="text-align: center; border:none;">Klik Tombol Magic! ✨</h2>
+                    <button class="btn-magic" id="magicBtn">HUJAN BUNGA UNTUKMU</button>
+                    
+                    <div id="adminSection" style="margin-top:15px; display:none;">
+                        <p style="font-size:0.75rem; font-weight:bold; text-align:center;">Tulis Jawabanmu Disini ☺</p>
+                        <table class="admin-table">
+                            <tr><td><textarea id="pesanAdmin" class="input-msg" rows="3" placeholder="Tulis sesuatu untuk dht_..."></textarea></td></tr>
+                            <tr><td><button class="btn-magic" style="background:#25D366;" onclick="kirimWA()">Kirim Pesan Ke Admin 🚀</button></td></tr>
+                        </table>
+                        <p style="font-size:0.6rem; color:#888; margin-top:10px; text-align:center;">Maaf ya ga bisa ngasih apa-apa selain dukungan ini ☺</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const envWrap = document.getElementById('envWrap');
+        const btnOpenBook = document.getElementById('btnOpenBook');
+        const bookWrap = document.getElementById('bookWrap');
+        const magicBtn = document.getElementById('magicBtn');
+        const adminSection = document.getElementById('adminSection');
+
+        envWrap.addEventListener('click', () => { envWrap.classList.add('open'); });
+
+        btnOpenBook.addEventListener('click', (e) => {
+            e.stopPropagation();
+            envWrap.classList.add('fadeOut');
+            setTimeout(() => {
+                envWrap.style.display = 'none';
+                bookWrap.classList.add('active');
+            }, 600);
+        });
+
+        magicBtn.addEventListener('click', () => {
+            magicBtn.style.display = 'none';
+            adminSection.style.display = 'block';
+            for(let i=0; i<40; i++) { setTimeout(createFlower, i * 100); }
+        });
+
+        function createFlower() {
+            const flowers = ['🌸', '🌹', '🌷', '🌺', '🌻', '🌼'];
+            const f = document.createElement('div');
+            f.className = 'falling-flower';
+            f.innerText = flowers[Math.floor(Math.random() * flowers.length)];
+            f.style.left = Math.random() * 100 + 'vw';
+            f.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(f);
+            setTimeout(() => { f.remove(); }, 5000);
+        }
+
+        // FUNGSI KIRIM PESAN DENGAN NOTIFIKASI MENYENTUH HATI
+        function kirimWA() {
+            const pesanUser = document.getElementById('pesanAdmin').value;
+            if (pesanUser.trim() === "") { 
+                alert("Tulis pesannya dulu ya ☺"); 
+                return; 
+            }
+            
+            const nomer = "6285142392302";
+            
+            // Format Pesan yang Menyentuh Hati untuk Admin
+            const pesanFinal = `*Halo Admin dht_ ✨*\n\n` +
+                               `Ada pesan menyentuh hati dari seseorang yang baru saja membaca hadiah darimu:\n\n` +
+                               `"${pesanUser}"\n\n` +
+                               `--- 🌸 ---\n` +
+                               `_Pesan ini dikirim dengan penuh rasa terima kasih melalui website spesialmu._`;
+
+            const url = `https://api.whatsapp.com/send?phone=${nomer}&text=${encodeURIComponent(pesanFinal)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
